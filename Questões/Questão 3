@@ -1,0 +1,60 @@
+// Implemente uma função que, dado uma matriz A e uma submatriz B (dimensões menores que A), 
+// esta função retorne quantas vezes esta submatriz B pode ser encontrada na matriz A.
+#include <stdio.h>
+
+int countSubmatrices(int matrixA[][4], int rowsA, int colsA, int submatrixB[][2], int rowsB, int colsB) {
+    int count = 0;
+
+    // Verifica se a matriz B é menor que a matriz A
+    if (rowsB > rowsA || colsB > colsA) {
+        printf("Dimensions of B large than A.\n");
+        return -1;
+    }
+
+    for (int i = 0; i <= rowsA - rowsB; i++) {
+        for (int j = 0; j <= colsA - colsB; j++) {
+            // Verifica se a submatrizes são iguais
+            int isEqual = 1;
+            for (int k = 0; k < rowsB; k++) {
+                for (int l = 0; l < colsB; l++) {
+                    if (matrixA[i + k][j + l] != submatrixB[k][l]) {
+                        isEqual = 0;
+                        break;
+                    }
+                }
+                if (!isEqual) {
+                    break;
+                }
+            }
+            if (isEqual) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    int matrixA[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+
+    int submatrixB[2][2] = {
+        {6, 7},
+        {10, 11}
+    };
+
+    int rowsA = 3;
+    int colsA = 4;
+    int rowsB = 2;
+    int colsB = 2;
+
+    int occurrences = countSubmatrices(matrixA, rowsA, colsA, submatrixB, rowsB, colsB);
+
+    printf("B occurs %d times in matrix A.\n", occurrences);
+
+    return 0;
+}
